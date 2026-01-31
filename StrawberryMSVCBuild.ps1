@@ -688,7 +688,7 @@ function ExtractPackage {
     [bool]$ignore_errors = $false
   )
   if (-not $package_dir) {
-    $package_dir = Split-Path -Path $package_file -Leaf
+    $package_dir = [System.IO.Path]::GetFileNameWithoutExtension([System.IO.Path]::GetFileNameWithoutExtension($package_file))
     if (-not $package_dir) {
       throw "Could not get filename from path $package_file"
     }
