@@ -1094,7 +1094,9 @@ function Build-GMP {
       Set-Location ..
     }
     Set-Location "gmp\SMP"
-    UpgradeVSProject -project_path "$smp_build_path\gmp\SMP\libgmp.vcxproj"
+    if (-not (Test-Path "Backup\libgmp.vcxproj")) {
+      UpgradeVSProject -project_path "$smp_build_path\gmp\SMP\libgmp.vcxproj"
+    }
     MSBuildProject -project_path "$smp_build_path\gmp\SMP\libgmp.vcxproj" -configuration "${cmake_build_type}DLL"
     Copy-Item "..\..\..\msvc\lib\${arch_short}\gmp$lib_postfix.lib" "$prefix_path\lib\" -Force
     Copy-Item "..\..\..\msvc\bin\${arch_short}\gmp$lib_postfix.dll" "$prefix_path\bin\" -Force
@@ -1123,7 +1125,9 @@ function Build-Nettle {
       Set-Location ..
     }
     Set-Location "nettle\SMP"
-    UpgradeVSProject -project_path "libnettle.vcxproj"
+    if (-not (Test-Path "Backup\libnettle.vcxproj")) {
+      UpgradeVSProject -project_path "libnettle.vcxproj"
+    }
     MSBuildProject -project_path "libnettle.vcxproj" -configuration "${cmake_build_type}DLL"
     Copy-Item "..\..\..\msvc\lib\${arch_short}\nettle$lib_postfix.lib" "$prefix_path\lib\" -Force
     Copy-Item "..\..\..\msvc\bin\${arch_short}\nettle$lib_postfix.dll" "$prefix_path\bin\" -Force
@@ -1131,7 +1135,9 @@ function Build-Nettle {
       New-Item -ItemType Directory -Path "$prefix_path\include\nettle" -Force | Out-Null
     }
     Copy-Item "..\..\..\msvc\include\nettle" "$prefix_path\include\" -Force
-    UpgradeVSProject -project_path "libhogweed.vcxproj"
+    if (-not (Test-Path "Backup\libhogweed.vcxproj")) {
+      UpgradeVSProject -project_path "libhogweed.vcxproj"
+    }
     MSBuildProject -project_path "libhogweed.vcxproj" -configuration "${cmake_build_type}DLL"
     Copy-Item "..\..\..\msvc\lib\${arch_short}\hogweed$lib_postfix.lib" "$prefix_path\lib\" -Force
     Copy-Item "..\..\..\msvc\bin\${arch_short}\hogweed$lib_postfix.dll" "$prefix_path\bin\" -Force
@@ -1175,7 +1181,9 @@ function Build-GnuTLS {
 </Project>
 "@
     Set-Content -Path "$build_path\ShiftMediaProject\build\gnutls\SMP\inject_zlib.props" -Value $props_content
-    UpgradeVSProject -project_path "libgnutls.sln"
+    if (-not (Test-Path "$build_path\ShiftMediaProject\build\gnutls\SMP\Backup\libgnutls.vcxproj")) {
+      UpgradeVSProject -project_path "libgnutls.sln"
+    }
     MSBuildProject -project_path "libgnutls.sln" -configuration "${cmake_build_type}DLL" -additional_args @("/p:ForceImportBeforeCppTargets=$build_path\ShiftMediaProject\build\gnutls\SMP\inject_zlib.props")
     Copy-Item "..\..\..\msvc\lib\${arch_short}\gnutls$lib_postfix.lib" "$prefix_path\lib\" -Force
     Copy-Item "..\..\..\msvc\bin\${arch_short}\gnutls$lib_postfix.dll" "$prefix_path\bin\" -Force
@@ -1186,10 +1194,18 @@ function Build-GnuTLS {
     # Workaround: Build static deps version
     (Get-Content "project_get_dependencies.bat") -replace 'PAUSE', 'ECHO.' | Set-Content "project_get_dependencies.bat"
     & ".\project_get_dependencies.bat"
-    UpgradeVSProject -project_path "..\..\gmp\SMP\libgmp.vcxproj"
-    UpgradeVSProject -project_path "..\..\zlib\SMP\libzlib.vcxproj"
-    UpgradeVSProject -project_path "..\..\nettle\SMP\libnettle.vcxproj"
-    UpgradeVSProject -project_path "..\..\nettle\SMP\libhogweed.vcxproj"
+    if (-not (Test-Path "..\..\gmp\SMP\Backup\libgmp.vcxproj")) {
+      UpgradeVSProject -project_path "..\..\gmp\SMP\libgmp.vcxproj"
+    }
+    if (-not (Test-Path "..\..\zlib\SMP\Backup\libzlib.vcxproj")) {
+      UpgradeVSProject -project_path "..\..\zlib\SMP\libzlib.vcxproj"
+    }
+    if (-not (Test-Path "..\..\nettle\SMP\Backup\libnettle.vcxproj")) {
+      UpgradeVSProject -project_path "..\..\nettle\SMP\libnettle.vcxproj"
+    }
+    if (-not (Test-Path "..\..\nettle\SMP\Backup\libhogweed.vcxproj")) {
+      UpgradeVSProject -project_path "..\..\nettle\SMP\libhogweed.vcxproj"
+    }
     MSBuildProject -project_path "..\..\gmp\SMP\libgmp.vcxproj" -configuration "Release"
     MSBuildProject -project_path "..\..\zlib\SMP\libzlib.vcxproj" -configuration "Release"
     MSBuildProject -project_path "..\..\nettle\SMP\libnettle.vcxproj" -configuration "Release"
@@ -1861,7 +1877,9 @@ function Build-Twolame {
     Set-Location twolame-$twolame_version
     & patch -p1 -N -i "$downloads_path\twolame.patch"
     Set-Location "win32"
-    UpgradeVSProject "libtwolame_dll.sln"
+    if (-not (Test-Path "Backup\libtwolame_dll.sln")) {
+      UpgradeVSProject "libtwolame_dll.sln"
+    }
     Start-Sleep -Seconds 5
     (Get-Content "libtwolame_dll.sln") -replace "Win32", "x64" | Set-Content "libtwolame_dll.sln"
     (Get-Content "libtwolame_dll.vcxproj") -replace "Win32", "x64" | Set-Content "libtwolame_dll.vcxproj"
@@ -2012,7 +2030,9 @@ function Build-Faac {
     Set-Location "faac-faac-$faac_version"
     & patch -p1 -N -i $downloads_path\faac-msvc.patch
     Set-Location "project\msvc"
-    UpgradeVSProject "faac.sln"
+    if (-not (Test-Path "Backup\faac.sln")) {
+      UpgradeVSProject "faac.sln"
+    }
     MSBuildProject "faac.sln" -configuration "$build_type"
     Copy-Item "..\..\include\*.h" "$prefix_path\include\" -Force
     Copy-Item "bin\$build_type\libfaac_dll.lib" "$prefix_path\lib\" -Force
