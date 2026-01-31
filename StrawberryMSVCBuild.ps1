@@ -236,9 +236,11 @@ $env:PKG_CONFIG_PATH = "$prefix_path\lib\pkgconfig"
 $env:PKG_CONFIG_ALLOW_SYSTEM_CFLAGS = "1"
 $env:PKG_CONFIG_ALLOW_SYSTEM_LIBS = "1"
 $env:CL = "-MP"
-$env:PATH = "$prefix_path\bin;$env:PATH"
 $env:YASMPATH = "$prefix_path\bin"
 
+if ($env:PATH -split ';' -notcontains "$prefix_path\bin") {
+  $env:PATH = "$prefix_path\bin;$env:PATH"
+}
 
 Write-Host "  Setting Visual Studio environment..." -ForegroundColor Cyan
 $vs_where_path = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
