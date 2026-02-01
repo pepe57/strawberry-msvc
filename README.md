@@ -1,10 +1,10 @@
-# :hammer_and_wrench: Strawberry - Build with Visual Studio 2022/2026
+# :hammer_and_wrench: Strawberry MSVC Build Tools
 
-This guide uses Visual Studio 2022/2026 to build Strawberry Music Player as well as required dependencies.
+This repository contains tools to build all the Strawberry Music Player dependencies with Visual Studio 2022 or 2026.
 
-These instructions are provided as-is, they are primarily intended for developers working on Strawberry on Windows.
+Instructions here are provided as-is, primarily intended for developers working on Strawberry for Windows.
 
-We do not offer support to users for building Strawberry on Windows.
+If something here does not work as expected, consider opening a pull request to fix the issue. Due to lack of time, I can not offer much support.
 
 ### Requirements
 
@@ -86,16 +86,11 @@ Install manually from `C:\data\projects\strawberry\msvc_\downloads`:
 
 ### Configure PATH environment variable
 
-Delete `pkg-config` files to prevent conflicts with Strawberry's own `pkg-config`:
-- Delete `C:\strawberry\perl\bin\pkg-config`
-- Delete `C:\strawberry\perl\bin\pkg-config.bat`
-
 Windows Settings | System | About | Advanced system settings | Tab Advanced | Environment Variables:
 - System variables | Path | Edit:
-    - Delete: `C:\Strawberry\c\bin` (To prevent conflicts with other utilities)
-    - Add: `C:\Program Files\Git\bin` (This is for `sed` and `patch` utilities)
+    - Add: `C:\Program Files\Git\bin` (This is for Unix commands such `sed` and `patch`)
     - Add: `C:\Program Files (x86)\NSIS`
-    - Make sure no MinGW-W64 (gcc, g++, etc) installation is in `PATH`, as this can cause those to be picked up as compiler instead of MSVC.
+    - Make sure no GCC / MinGW-W64 installation is in `PATH` (gcc, g++, etc commands), as that can cause those to be picked up as compiler instead of MSVC.
 
 ### Meson installation
 
