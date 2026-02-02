@@ -545,7 +545,6 @@ function GetPackageUrls {
     'gst-plugins-ugly' = "https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-$gstreamer_version.tar.xz"
     'gst-libav' = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-$gstreamer_version.tar.xz"
     'sparsehash' = "https://github.com/sparsehash/sparsehash/archive/refs/tags/sparsehash-$sparsehash_version.tar.gz"
-    'rapidjson' = "https://github.com/Tencent/rapidjson/archive/refs/tags/v$rapidjson_version/rapidjson-$rapidjson_version.tar.gz"
     'abseil-cpp' = "https://github.com/abseil/abseil-cpp/archive/refs/tags/$abseil_version/abseil-cpp-$abseil_version.tar.gz"
     'protobuf' = "https://github.com/protocolbuffers/protobuf/releases/download/v$protobuf_version/protobuf-$protobuf_version.tar.gz"
     'qtbase' = "https://download.qt.io/official_releases/qt/$qt_version_short/$qt_version/submodules/qtbase-everywhere-src-$qt_version.tar.xz"
@@ -593,7 +592,6 @@ function GetGitRepoUrls {
     'gstreamer' = "https://gitlab.freedesktop.org/gstreamer/gstreamer"
     'gst-plugins-rs' = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs"
     'tinysvcmdns' = "https://github.com/Pro/tinysvcmdns"
-    'rapidjson' = "https://github.com/Tencent/rapidjson"
     'yasm' = "https://github.com/yasm/yasm"
     'vsyasm' = "https://github.com/ShiftMediaProject/VSYASM"
     'gmp' = "https://github.com/ShiftMediaProject/gmp"
@@ -2507,28 +2505,6 @@ function Build-SparseHash {
   }
 }
 
-function Build-RapidJson {
-  Write-Host "Building rapidjson (header-only)" -ForegroundColor Yellow
-  Push-Location $build_path
-  try {
-    CloneGitRepo -git_repo_name "rapidjson"
-    if (-not (Test-Path "rapidjson")) {
-      RecursiveCopy "$downloads_path\rapidjson" "rapidjson"
-    }
-    Set-Location rapidjson
-    CMakeBuild -additional_args @(
-        "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
-        "-DCMAKE_INSTALL_DIR=$prefix_path\lib\cmake\RapidJSON",
-        "-DRAPIDJSON_BUILD_DOC=OFF",
-        "-DRAPIDJSON_BUILD_EXAMPLES=OFF",
-        "-DRAPIDJSON_BUILD_TESTS=OFF"
-      )
-  }
-  finally {
-    Pop-Location
-  }
-}
-
 function Build-AbseilCpp {
   Write-Host "Building abseil-cpp" -ForegroundColor Yellow
   Push-Location $build_path
@@ -2945,7 +2921,6 @@ try {
   if (-not (Test-Path "$prefix_path\lib\cmake\KDSingleApplication-qt6\KDSingleApplication-qt6Config.cmake")) { $build_queue += "kdsingleapplication" }
   if (-not (Test-Path "$prefix_path\lib\cmake\qtsparkle-qt6\qtsparkle-qt6Config.cmake")) { $build_queue += "qtsparkle" }
   if (-not (Test-Path "$prefix_path\lib\pkgconfig\libsparsehash.pc")) { $build_queue += "sparsehash" }
-  if (-not (Test-Path "$prefix_path\lib\cmake\RapidJSON\RapidJSONConfig.cmake")) { $build_queue += "rapidjson" }
   if (-not (Test-Path "$prefix_path\lib\cmake\glew\glew-config.cmake")) { $build_queue += "glew" }
   if (-not (Test-Path "$prefix_path\lib\cmake\projectM4\projectM4Config.cmake")) { $build_queue += "libprojectm" }
   if (-not (Test-Path "$prefix_path\lib\pkgconfig\tinysvcmdns.pc")) { $build_queue += "tinysvcmdns" }
@@ -3042,7 +3017,6 @@ try {
       "kdsingleapplication" { Build-KDSingleApplication }
       "qtsparkle" { Build-QtSparkle }
       "sparsehash" { Build-SparseHash }
-      "rapidjson" { Build-RapidJson }
       "glew" { Build-Glew }
       "libprojectm" { Build-LibProjectm }
       "tinysvcmdns" { Build-TinySvcmdns }
