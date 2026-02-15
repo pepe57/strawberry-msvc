@@ -778,6 +778,9 @@ function CMakeBuild {
     [string]$build_path = "build",
 
     [Parameter(Mandatory=$false)]
+    [string]$cmake_build_type_override = "$cmake_build_type",
+
+    [Parameter(Mandatory=$false)]
     [bool]$build_static_libs = $false,
 
     [Parameter(Mandatory=$false)]
@@ -798,7 +801,7 @@ function CMakeBuild {
     "-G", "$cmake_generator",
     "-S", "$source_path",
     "-B", "$build_path",
-    "-DCMAKE_BUILD_TYPE=$cmake_build_type",
+    "-DCMAKE_BUILD_TYPE=$cmake_build_type_override",
     "-DCMAKE_PREFIX_PATH=$prefix_path\lib\cmake",
     "-DCMAKE_INSTALL_PREFIX=$prefix_path",
     "-DBUILD_STATIC_LIBS=$build_static_libs_toggle",
@@ -1986,7 +1989,7 @@ function Build-Musepack {
     ExtractPackage "musepack_src_r$musepack_version.tar.gz"
     Set-Location musepack_src_r$musepack_version
     & patch -p1 -N -i $downloads_path/musepack-fixes.patch
-    CMakeBuild -additional_args @(
+    CMakeBuild -cmake_build_type_override "Debug" -additional_args @(
         "-DSHARED=ON",
         "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
       )
