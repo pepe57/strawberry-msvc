@@ -222,7 +222,6 @@ if ([string]::IsNullOrEmpty($build_path)) {
 
 $prefix_path = "c:\strawberry_msvc_${arch}_${build_type}"
 $prefix_path_forward = $prefix_path -replace '\\', '/'
-$prefix_path_escape = $prefix_path -replace '\\', '\\'
 $qt_dev = "OFF"
 $gst_dev = "OFF"
 
@@ -239,7 +238,6 @@ Write-Host "  CMake build type:    $cmake_build_type"
 Write-Host "  Meson build type:    $meson_build_type"
 Write-Host "  Prefix path:         $prefix_path"
 Write-Host "  Prefix path forward: $prefix_path_forward"
-Write-Host "  Prefix path escape:  $prefix_path_escape"
 Write-Host ""
 
 # Create directories
