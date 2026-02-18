@@ -1103,6 +1103,7 @@ function Build-ZLib {
     CMakeBuild
     if ($build_type -eq "debug") {
       (Get-Content $prefix_path/lib/pkgconfig/zlib.pc) -replace '-lz$', '-lzd' | Set-Content $prefix_path/lib/pkgconfig/zlib.pc
+      Copy-Item "$prefix_path/lib/zd.lib" "$prefix_path/lib/z.lib" -Force
     }
   }
   finally {
