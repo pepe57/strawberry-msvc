@@ -2352,6 +2352,7 @@ function Build-GstPluginsGood {
         "-Dwaveform=enabled",
         "-Dwavpack=enabled",
         "-Dsoup=enabled",
+        "-Dmatroska=enabled",
         "-Dhls-crypto=openssl"
       )
   }
