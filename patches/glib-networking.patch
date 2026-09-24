@@ -35,8 +35,8 @@ index ee4cb424..1d263b0d 100644
              break;
          }
  
--      status = end_openssl_io (openssl, direction, ret, err_code, TRUE, error, err_prefix);
-+      status = end_openssl_io (openssl, direction, ssl, ret, err_code, TRUE, error, err_prefix);
+-      status = end_openssl_io (openssl, direction, ret, err_code, saved_errno, TRUE, error, err_prefix);
++      status = end_openssl_io (openssl, direction, ssl, ret, err_code, saved_errno, TRUE, error, err_prefix);
  
        if (status != G_TLS_CONNECTION_BASE_TRY_AGAIN)
          break;
