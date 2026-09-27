@@ -22,8 +22,6 @@ If something here does not work as expected, consider opening a pull request to 
 * [Rust compiler MSVC](https://www.rust-lang.org)
 * [NSIS](https://nsis.sourceforge.io/)
 * [NSIS LockedList Plugin](https://nsis.sourceforge.io/LockedList_plug-in)
-* [NSIS Inetc Plugin](https://nsis.sourceforge.io/Inetc_plug-in)
-* [NSIS Registry Plugin](https://nsis.sourceforge.io/Registry_plug-in)
 
 ## Windows setup
 
@@ -71,11 +69,6 @@ Install manually from `C:\data\projects\strawberry\msvc_\downloads`:
     - Extract NSIS `LockedList.zip` plugin:
         - Copy `LockedList\Plugins\LockedList64.dll` to `C:\Program Files (x86)\NSIS\Plugins\LockedList64.dll`
         - Copy `LockedList\Plugins\x86-unicode\LockedList.dll` to `C:\Program Files (x86)\NSIS\Plugins\x86-unicode\LockedList.dll`
-    - Extract NSIS `Inetc.zip` plugin:
-        - Copy `Inetc\Plugins\x86-unicode\INetC.dll` to `C:\Program Files (x86)\NSIS\Plugins\x86-unicode\INetC.dll`
-    - Extract NSIS `Registry.zip` plugin:
-        - Copy `Registry\Desktop\Plugin\registry.dll` to `C:\Program Files (x86)\NSIS\Plugins\registry.dll`
-        - Copy `Registry\Desktop\Plugin\registry.dll` to `C:\Program Files (x86)\NSIS\Plugins\x86-unicode\registry.dll`
 
 ### Configure PATH environment variable
 
